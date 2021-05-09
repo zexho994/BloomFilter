@@ -1,6 +1,9 @@
 package BloomFilter
 
 type BloomFilter struct {
+	m  uint // the numbers of val
+	k  uint // the maximum tolerable error
+	bs *BitSet
 }
 
 func NewBloomFilter() BloomFilter {
