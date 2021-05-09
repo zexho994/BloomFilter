@@ -1,13 +1,16 @@
 package BloomFilter
 
+import "math"
+
 type BloomFilter struct {
-	m  uint // the numbers of val
-	k  uint // the maximum tolerable error
+	m  uint // count of val
+	k  uint // count of hash
 	bs *BitSet
 }
 
-func NewBloomFilter(m, k uint) BloomFilter {
-	return BloomFilter{m: max(1, m), k: max(1, k), bs: New(max(1, m))}
+func NewBloomFilter(m uint, fp float64) *BloomFilter {
+	n, k := EstimateParameters(m, fp)
+	return &BloomFilter{m: n, k: k, bs: New(n)}
 }
 
 func EstimateParameters(n uint, p float64) (m, k uint) {
