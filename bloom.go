@@ -13,6 +13,9 @@ func NewBloomFilter(m uint, fp float64) *BloomFilter {
 	return &BloomFilter{m: n, k: k, bs: New(n)}
 }
 
+// EstimateParameters estimates requirements for m and k.
+// Based on https://www.cnblogs.com/allensun/archive/2011/02/16/1956532.html
+// used with permission.
 func EstimateParameters(n uint, p float64) (m, k uint) {
 	m = uint(math.Ceil(-1 * float64(n) * math.Log(p) / math.Pow(math.Ln2, 2)))
 	k = uint(math.Ceil(math.Ln2 * float64(m) / float64(n)))
@@ -50,5 +53,12 @@ func baseHashes(data []byte) [4]uint64 {
 }
 
 func (bf *BloomFilter) exist(s string) bool {
-	return false
+	bt := []byte(s)
+	h := baseHashes(bt)
+	for i := uint(0); i < bf.k; i++ {
+		if !bf.bs.Get(bf.location(h, i)) {
+			return false
+		}
+	}
+	return true
 }
