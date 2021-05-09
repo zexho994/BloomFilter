@@ -6,8 +6,8 @@ type BloomFilter struct {
 	bs *BitSet
 }
 
-func NewBloomFilter() BloomFilter {
-	return BloomFilter{}
+func NewBloomFilter(m, k uint) BloomFilter {
+	return BloomFilter{m: max(1, m), k: max(1, k), bs: New(max(1, m))}
 }
 
 func (bf *BloomFilter) add(s string) {
