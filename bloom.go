@@ -17,3 +17,10 @@ func (bf *BloomFilter) add(s string) {
 func (bf *BloomFilter) exist(s string) bool {
 	return false
 }
+
+func max(n1, n2 uint) uint {
+	if n1 > n2 {
+		return n1
+	}
+	return n2
+}
