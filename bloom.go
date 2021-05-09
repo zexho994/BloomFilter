@@ -19,8 +19,26 @@ func EstimateParameters(n uint, p float64) (m, k uint) {
 	return
 }
 
-func (bf *BloomFilter) add(s string) {
+func (bf *BloomFilter) addString(s string) {
+	bf.add([]byte(s))
+}
 
+func (bf *BloomFilter) add(s []byte) {
+	h := baseHashes(s)
+	for i := uint(0); i < bf.k; i++ {
+		bf.bs.Set(bf.location(h, i))
+	}
+}
+
+// location returns the ith hashed location using the four base hash values
+func (bf *BloomFilter) location(h [4]uint64, i uint) uint {
+	return uint(location(h, i) % uint64(bf.m))
+}
+
+// location returns the ith hashed location using the four base hash values
+func location(h [4]uint64, i uint) uint64 {
+	ii := uint64(i)
+	return h[ii%2] + ii*h[2+(((ii+(ii%2))%4)/2)]
 }
 
 func baseHashes(data []byte) [4]uint64 {
@@ -33,11 +51,4 @@ func baseHashes(data []byte) [4]uint64 {
 
 func (bf *BloomFilter) exist(s string) bool {
 	return false
-}
-
-func max(n1, n2 uint) uint {
-	if n1 > n2 {
-		return n1
-	}
-	return n2
 }
