@@ -52,8 +52,7 @@ func baseHashes(data []byte) [4]uint64 {
 	}
 }
 
-func (bf *BloomFilter) exist(s string) bool {
-	bt := []byte(s)
+func (bf *BloomFilter) existBts(bt []byte) bool {
 	h := baseHashes(bt)
 	for i := uint(0); i < bf.k; i++ {
 		if !bf.bs.Get(bf.location(h, i)) {
@@ -61,4 +60,9 @@ func (bf *BloomFilter) exist(s string) bool {
 		}
 	}
 	return true
+}
+
+func (bf *BloomFilter) exist(s string) bool {
+	bts := []byte(s)
+	return bf.existBts(bts)
 }
