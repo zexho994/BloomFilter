@@ -16,8 +16,14 @@ func From(buf []uint64) *BitSet {
 	return &BitSet{data: buf, length: uint(len(buf)) * 64}
 }
 
-func New(l uint) *BitSet {
-	return &BitSet{data: make([]uint64, l/65), length: l}
+func New(l uint) (bset *BitSet) {
+	defer func() {
+		if r := recover(); r != nil {
+			bset = &BitSet{length: 0, data: make([]uint64, 0)}
+		}
+	}()
+	bset = &BitSet{data: make([]uint64, l/64), length: l}
+	return bset
 }
 
 // wordsNeeded calculates the number of words needed for i bits
