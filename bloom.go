@@ -20,6 +20,14 @@ func (bf *BloomFilter) add(s string) {
 
 }
 
+func baseHashes(data []byte) [4]uint64 {
+	var d digest128
+	hash1, hash2, hash3, hash4 := d.sum256(data)
+	return [4]uint64{
+		hash1, hash2, hash3, hash4,
+	}
+}
+
 func (bf *BloomFilter) exist(s string) bool {
 	return false
 }
