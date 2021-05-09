@@ -10,6 +10,12 @@ func NewBloomFilter(m, k uint) BloomFilter {
 	return BloomFilter{m: max(1, m), k: max(1, k), bs: New(max(1, m))}
 }
 
+func EstimateParameters(n uint, p float64) (m, k uint) {
+	m = uint(math.Ceil(-1 * float64(n) * math.Log(p) / math.Pow(math.Ln2, 2)))
+	k = uint(math.Ceil(math.Ln2 * float64(m) / float64(n)))
+	return
+}
+
 func (bf *BloomFilter) add(s string) {
 
 }
