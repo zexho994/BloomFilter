@@ -72,7 +72,7 @@ func TestBloomFilter_StringExist(t *testing.T) {
 	total := 1000000
 	bf := NewBloomFilter(uint(total), 0.05)
 	for i := 0; i < total; i++ {
-		bf.add([]byte(strconv.Itoa(i)))
+		bf.addString(strconv.Itoa(i))
 	}
 
 	fail := 0

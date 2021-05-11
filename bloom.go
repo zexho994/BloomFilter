@@ -17,7 +17,7 @@ func NewBloomFilter(m uint, fp float64) *BloomFilter {
 // Based on https://www.cnblogs.com/allensun/archive/2011/02/16/1956532.html
 // used with permission.
 func EstimateParameters(n uint, p float64) (m, k uint) {
-	m = uint(math.Ceil(-1 * float64(n) * math.Log(p) / math.Pow(math.Ln2, 2)))
+	m = uint(math.Ceil(-float64(n) * math.Log(p) / (math.Ln2 * math.Ln2)))
 	k = uint(math.Ceil(math.Ln2 * float64(m) / float64(n)))
 	return
 }
