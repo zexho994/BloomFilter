@@ -21,7 +21,7 @@ func New(l uint) (bs *BitSet) {
 			bs = &BitSet{length: 0, set: make([]uint64, 0)}
 		}
 	}()
-	bs = &BitSet{set: make([]uint64, l/64), length: l}
+	bs = &BitSet{set: make([]uint64, wordsNeeded(l)), length: l}
 	return bs
 }
 
@@ -45,7 +45,7 @@ func (bs *BitSet) extendSetMaybe(num uint) {
 	if num >= MaxCapacity {
 		panic("You are exceeding the capacity")
 	}
-	nSize := bs.wordsNeeded(num)
+	nSize := wordsNeeded(num + 1)
 	if bs.set == nil {
 		bs.set = make([]uint64, nSize)
 	} else if cap(bs.set) >= nSize {
@@ -59,9 +59,9 @@ func (bs *BitSet) extendSetMaybe(num uint) {
 }
 
 // wordsNeeded calculates the number of words needed for num bits
-func (bs *BitSet) wordsNeeded(num uint) int {
-	if num > (MaxCapacity - wordSize) {
+func wordsNeeded(num uint) int {
+	if num > (MaxCapacity - wordSize + 1) {
 		return int(MaxCapacity >> log2WordSize)
 	}
-	return int((num + wordSize) >> log2WordSize)
+	return int((num + (wordSize - 1)) >> log2WordSize)
 }
