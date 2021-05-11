@@ -23,3 +23,33 @@ Bit数组的宽度取决于两个因素：
 
 - 对于Add(s),将n个bit位存储到Bit数组中。
 - 对于Get(s),查询n个bit位是否都存在，从而判断数据是否存在。
+
+数学证明： http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html
+
+### 测试
+```golang
+func TestBloomFilter_StringExist(t *testing.T) {
+	total := 1000000
+  fp := 0.05
+	bf := NewBloomFilter(uint(total), fp)
+	for i := 0; i < total; i++ {
+		bf.addString(strconv.Itoa(i))
+	}
+
+	fail := 0
+	for i := 0; i < total; i++ {
+		if !bf.exist(strconv.Itoa(i)) {
+			fail++
+		}
+	}
+	fmt.Println("fail count = ", fail)
+
+	fail = 0
+	for i := total; i < total+10000; i++ {
+		if bf.exist(strconv.Itoa(i)) {
+			fail++
+		}
+	}
+	fmt.Println("fail count = ", fail)
+}
+```
