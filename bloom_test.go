@@ -70,7 +70,7 @@ func TestBloomFilter_add(t *testing.T) {
 
 func TestBloomFilter_StringExist(t *testing.T) {
 	total := 1000000
-	bf := NewBloomFilter(uint(total), 0.03)
+	bf := NewBloomFilter(uint(total), 0.05)
 	for i := 0; i < total; i++ {
 		bf.addString(strconv.Itoa(i))
 	}
@@ -81,15 +81,15 @@ func TestBloomFilter_StringExist(t *testing.T) {
 			fail++
 		}
 	}
-	fmt.Println("number of missing  = ", fail)
+	fmt.Println("fail count = ", fail)
 
 	fail = 0
-	for i := total; i < total+1000; i++ {
+	for i := total; i < total+10000; i++ {
 		if bf.exist(strconv.Itoa(i)) {
 			fail++
 		}
 	}
-	fmt.Println("number of mistakes  = ", fail)
+	fmt.Println("fail count = ", fail)
 }
 
 func TestEstimateParameters(t *testing.T) {
