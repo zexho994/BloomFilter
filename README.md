@@ -1,7 +1,7 @@
 # BloomFilter
 BloomFilter by Go , go 实现的布隆过滤器
 
-![](https://tva1.sinaimg.cn/large/008i3skNgy1gqbdqavvkkj30c60au74i.jpg)
+<img src="https://tva1.sinaimg.cn/large/008i3skNgy1gqbdqavvkkj30c60au74i.jpg" alt="img1" style="width=50%"/>
 
 
 ## 设计
@@ -52,4 +52,20 @@ func TestBloomFilter_StringExist(t *testing.T) {
 	}
 	fmt.Println("fail count = ", fail)
 }
+```
+
+fp = 0.03
+```
+number of missing  =  0
+number of mistakes  =  27
+```
+fp = 0.05
+```
+number of missing  =  0
+number of mistakes  =  41
+```
+fp = 0.08
+```
+number of missing  =  0
+number of mistakes  =  81
 ```
