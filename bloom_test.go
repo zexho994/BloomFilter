@@ -2,6 +2,7 @@ package BloomFilter
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 )
 
@@ -67,24 +68,24 @@ func TestBloomFilter_add(t *testing.T) {
 	isTure(!b20)
 }
 
-func TestBloomFilter_exist(t *testing.T) {
+func TestBloomFilter_StringExist(t *testing.T) {
 	total := 1000000
 	bf := NewBloomFilter(uint(total), 0.05)
 	for i := 0; i < total; i++ {
-		bf.add([]byte{byte(i)})
+		bf.add([]byte(strconv.Itoa(i)))
 	}
 
 	fail := 0
 	for i := 0; i < total; i++ {
-		if !bf.existBts([]byte{byte(i)}) {
+		if !bf.exist(strconv.Itoa(i)) {
 			fail++
 		}
 	}
 	fmt.Println("fail count = ", fail)
 
 	fail = 0
-	for i := total + 1; i < total+1000; i++ {
-		if bf.existBts([]byte{byte(i)}) {
+	for i := total; i < total+10000; i++ {
+		if bf.exist(strconv.Itoa(i)) {
 			fail++
 		}
 	}
