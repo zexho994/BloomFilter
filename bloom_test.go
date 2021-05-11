@@ -91,3 +91,18 @@ func TestBloomFilter_StringExist(t *testing.T) {
 	}
 	fmt.Println("fail count = ", fail)
 }
+
+func TestEstimateParameters(t *testing.T) {
+	n, k := EstimateParameters(10000, 0.01)
+	n1, k1 := EstimateParameters(10000, 0.03)
+	n2, k2 := EstimateParameters(10000, 0.05)
+	n3, k3 := EstimateParameters(1000, 0.05)
+	n4, k4 := EstimateParameters(100, 0.05)
+	n5, k5 := EstimateParameters(100000, 0.05)
+	fmt.Println(n, k)
+	fmt.Println(n1, k1)
+	fmt.Println(n2, k2)
+	fmt.Println(n3, k3)
+	fmt.Println(n4, k4)
+	fmt.Println(n5, k5)
+}
